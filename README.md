@@ -10,8 +10,8 @@ Work in progress.
 
 ## Components
 
-- [perehliadach-app](./perehliadach-app): a dekstop application
-- [perehliadach-cli](./perehliadach-cli): a command-line for working with signed documents
+- [perehliadach-app](./perehliadach-app): a desktop application.
+- [perehliadach-cli](./perehliadach-cli): a command-line utility for validating and decoding signed documents.
 
 ## Validation Matrix
 
