@@ -3,6 +3,7 @@ package com.perehliadach.cli
 import com.perehliadach.cli.exceptions.AppException
 import com.perehliadach.cli.services.DocumentValidationService
 import com.perehliadach.cli.services.ReportDumpService
+import org.slf4j.LoggerFactory
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.info.BuildProperties
@@ -16,6 +17,8 @@ class AppRunner(
     private val reportDumpService: ReportDumpService,
     private val buildProperties: BuildProperties
 ) : ApplicationRunner {
+    private val logger = LoggerFactory.getLogger(AppRunner::class.java.name)
+
     private fun exit(code: Int) {
         println("Exited with code $code")
         exitProcess(0)
@@ -26,18 +29,22 @@ class AppRunner(
         outputDirectory: String
     ) {
         try {
+            logger.info("Validating '${inputFile.path}' file...")
+            val validationData = documentValidationService.validateDocument(inputFile)
+
             reportDumpService.writeToDirectory(
                 outputDirectory,
-                documentValidationService.validateDocument(inputFile)
+                validationData
             )
-            println("See '$outputDirectory' directory for results...")
+
+            logger.info("See '$outputDirectory' directory for results...")
             exit(0)
         } catch (exception: Exception) {
             val values = reportDumpService.writeExceptionToDirectory(outputDirectory, exception)
 
-            println("Exception:")
+            logger.info("Exception: ")
             values.forEach {
-                println("- ${it.key}: ${it.value}")
+                logger.info("- ${it.key}: ${it.value}")
             }
 
             exit(if (exception is AppException) exception.code.ordinal + 2 else 1)
@@ -47,17 +54,20 @@ class AppRunner(
     override fun run(args: ApplicationArguments) {
         println("perehliadach-cli (${buildProperties.version}, ${buildProperties.time.epochSecond})")
 
-        if (!args.containsOption("input") || !args.containsOption("output")) {
-            println("--input and --output arguments must be provided")
+        val inputOption = args.getOptionValues("input")
+        val outputOption = args.getOptionValues("output")
+
+        if (
+            inputOption == null || inputOption.size < 1 ||
+            outputOption == null || outputOption.size < 1
+        ) {
+            logger.info("--input and --output arguments must be provided")
             exit(1)
         }
 
-        val inputFile = args.getOptionValues("input")[0]
-        val outputDirectory = args.getOptionValues("output")[0]
-
         runValidation(
-            File(inputFile),
-            outputDirectory
+            File(inputOption[0]).normalize(),
+            File(outputOption[0]).normalize().absolutePath
         )
     }
 }
