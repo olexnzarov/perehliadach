@@ -1,8 +1,8 @@
 # perehliadach-cli
 
-A command line utility that uses DSS (Digital Signature Service) for working with electronic signatures compatible with European legislation.
+A command line utility that uses DSS (Digital Signature Service) library to work with electronic signatures compatible with European legislation. It also supports Ukrainian European signatures and includes the Ukrainian TL to trusted certificates.
 
-It also supports Ukrainian European signatures (ECDSA), adding the Ukrainian trusted list to trusted certificates.
+[Натисни на мене, щоб перейти на українську мову.](./README-UA.md)
 
 ## References
 
@@ -15,7 +15,7 @@ It also supports Ukrainian European signatures (ECDSA), adding the Ukrainian tru
 
 ## How to use
 
-`java -jar ./cli.jar --input signed-file.pdf.asice --output ./validation-result`
+`java -jar ./cli.jar --input=signed-file.pdf.asice --output=./validation-result`
 
 **Output Structure:**
 
