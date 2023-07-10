@@ -5,5 +5,5 @@ import eu.europa.esig.dss.validation.reports.Reports
 
 data class DocumentValidationData(
     val reports: Reports,
-    val documents: HashMap<String, List<DSSDocument>>,
+    val documents: List<DSSDocument>,
 )

@@ -37,24 +37,18 @@ class ReportDumpService {
             writeToFile(workingDirectory, "detailed-report.xml", validationData.reports.xmlDetailedReport)
             writeToFile(workingDirectory, "diagnostic-data.xml", validationData.reports.xmlDiagnosticData)
 
-            // Map of <Signature ID> to <Source File>[]
-            val sourceManifest = HashMap<String, MutableList<String>>()
+            val documentsDirectory = ensureDirectory("${workingDirectory.path}/source")
 
             validationData.documents.forEach {
-                // <output-directory>/source/<signature>
-                val documentsDirectory = ensureDirectory("${workingDirectory.path}/source/${it.key}")
-                sourceManifest[it.key] = mutableListOf()
+                val documentPath = "${documentsDirectory.path}/${it.name}"
+                val documentDirectory = File(documentPath).parentFile
 
-                it.value.forEach { document ->
-                    // <output-directory>/source/<signature>/<document>
-                    val documentPath = "${documentsDirectory.path}/${document.name}"
-                    document.save(documentPath)
-                    sourceManifest[it.key]!!.add(documentPath)
+                if (documentDirectory.absolutePath != documentDirectory.absolutePath) {
+                    ensureDirectory(documentDirectory.absolutePath)
                 }
-            }
 
-            // <output-directory>/source/manifest.json
-            writeToFile(workingDirectory, "source/manifest.json", objectMapper.writeValueAsString(sourceManifest))
+                it.save(documentPath)
+            }
         } catch (exception: Exception) {
             throw AppException.create(
                 AppExceptionCode.FAILED_TO_WRITE_OUTPUT,

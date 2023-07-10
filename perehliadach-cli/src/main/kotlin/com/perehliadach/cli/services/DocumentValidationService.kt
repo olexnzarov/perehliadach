@@ -20,9 +20,14 @@ class DocumentValidationService(private val certificateVerifierProvider: Certifi
             val certificateVerifier = certificateVerifierProvider.getCertificateVerifier()
             documentValidator.setCertificateVerifier(certificateVerifier)
 
-            val documents = HashMap<String, List<DSSDocument>>()
-            documentValidator.signatures.forEach {
-                documents[it.id] = documentValidator.getOriginalDocuments(it)
+            val documents = mutableListOf<DSSDocument>()
+
+            documentValidator.signatures.forEach { signature ->
+                documentValidator.getOriginalDocuments(signature).forEach { document ->
+                    if (documents.find { it.name.equals(document.name) } == null) {
+                        documents.add(document)
+                    }
+                }
             }
 
             return DocumentValidationData(
