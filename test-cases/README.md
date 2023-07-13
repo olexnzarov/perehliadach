@@ -1,6 +1,6 @@
 # test-cases
 
-[Service Agreement.pdf](./Service+Agreement.pdf) is the original file used in all samples.
+[Service Agreement.pdf](./Service%20Agreement.pdf) is the original file used in all samples.
 
 ### ASiC-E
 
