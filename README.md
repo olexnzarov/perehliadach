@@ -12,7 +12,12 @@ Work in progress.
 
 - [perehliadach-app](./perehliadach-app): a desktop application.
 - [perehliadach-cli](./perehliadach-cli): a command-line utility for validating and decoding signed documents.
+- [test-cases](./test-cases): a collection of samples for testing purposes.
 
 ## Validation Matrix
+
+Work in progress.
+
+## Building
 
 Work in progress.
