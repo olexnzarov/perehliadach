@@ -2,6 +2,8 @@
 
 **perehliadach** (Ukranian: переглядáч) is a desktop application for viewing and validating digitally signed documents. It supports signatures compatible with European legislation and Ukrainian European signatures.
 
+<img src="./.github/content/application-showcase.png" />
+
 [Натисни на мене, щоб перейти на українську мову.](./README-UA.md)
 
 ## Releases
