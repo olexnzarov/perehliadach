@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.perehliadach</groupId>
-	<artifactId>cli</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>perehliadach-cli</artifactId>
+	<version>1.0.0</version>
 	<name>cli</name>
 	<description>DSS CLI</description>
 	<properties>
@@ -19,7 +19,7 @@
 		<dss.version>5.12.1</dss.version>
 	</properties>
 	<dependencies>
-		<!-- DSS -->
+		<!-- Boilerplate -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>

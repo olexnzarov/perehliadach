@@ -6,8 +6,6 @@
 
 You can open and verify ASiC files with CAdES signatures. See the [Validation Matrix](#validation-matrix) section for more information on the supported and tested formats.
 
-To use this application, you must have Java JRE that supports Java 17 installed on the target machine.
-
 ## Releases
 
 Check out the latest pre-built versions on the [Releases](https://github.com/alexnzarov/perehliadach/releases) page. They are built from the source code in this repository using GitHub Actions. 

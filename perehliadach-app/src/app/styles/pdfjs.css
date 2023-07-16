@@ -1,0 +1,14 @@
+.react-pdf__Page {
+  width: fit-content;
+  margin: auto;
+  border: 1px solid #ced4da;
+  margin-bottom: 10px;
+}
+
+.react-pdf__Page:first-child {
+  margin-top: 15px;
+}
+
+.mantine-ScrollArea-scrollbar {
+  z-index: 10;
+}
