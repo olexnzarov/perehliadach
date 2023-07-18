@@ -19,5 +19,5 @@ export function TextViewer({ file, scale }: ViewerProperties) {
         </Paper>
       </Container>
     </Box>
-  )
+  );
 }
