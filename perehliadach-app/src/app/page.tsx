@@ -12,6 +12,7 @@ import signatureValidation from '@/scripts/signature-validation';
 import { useRouter } from 'next/navigation';
 import { createLogger } from '@/scripts/app-core/logger';
 import { notifications } from '@mantine/notifications';
+import { getApplicationSettings } from '@/scripts/user-settings';
 
 enum FileDropState {
   Idle,
@@ -48,7 +49,11 @@ export default function RootPage() {
     try {
       const data = await signatureValidation.runValidation(parentFile);
   
-      setDocumentContext({ parentFile, validation: data, activeDocument: 0 });
+      setDocumentContext({ 
+        parentFile, 
+        validation: data, 
+        activeDocument: getApplicationSettings().autoOpenSignedDocument ? 0 : undefined, 
+      });
   
       router.push('/document');
     } catch(e: any) {

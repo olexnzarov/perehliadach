@@ -27,10 +27,14 @@
         "all": true
       },
       "dialog": {
-        "open": true
+        "open": true,
+        "save": true
       },
       "path": {
         "all": true
+      },
+      "window": {
+        "maximize": true
       }
     },
     "bundle": {
@@ -78,7 +82,7 @@
       {
         "title": "Perehliadach",
         "width": 800,
-        "minWidth": 600,
+        "minWidth": 800,
         "height": 600,
         "minHeight": 600,
         "fullscreen": false,

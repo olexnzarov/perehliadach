@@ -2,13 +2,10 @@ import { IconBolt, IconBug, IconPigMoney, IconSettings, IconSettingsCog, IconToo
 import { BaseNavigationMenu } from '../base-navigation-menu';
 import { SwitchProps, NativeSelect, Stack, Switch, Kbd, Button, Group } from '@mantine/core';
 import { zoomOptions } from '@/app/document/scripts/zoom';
-import { useApplicationSettings } from '@/scripts/user-settings';
+import { resetApplicationSettings, useApplicationSettings } from '@/scripts/user-settings';
 import { ApplicationSettingsProperties } from '@/scripts/user-settings/properties';
 import { AccordionMenu } from '../accordion-menu';
-
-// TODO:
-// Auto open document
-// Auto full screen on open
+import { NativeApplication } from '@/scripts/app-core/native-application';
 
 const BooleanSwitch = ({ property, ...props }: { property: keyof ApplicationSettingsProperties } & SwitchProps) => {
   const [settings, setSettings] = useApplicationSettings();
@@ -25,6 +22,13 @@ const BooleanSwitch = ({ property, ...props }: { property: keyof ApplicationSett
 export function SettingsMenu({ onClose }: { onClose: () => void }) {
   const [settings, setSettings] = useApplicationSettings();
 
+  const onReportProblem = async () => {
+    const shell = await NativeApplication.getShell();
+    await shell.open('https://github.com/alexnzarov/perehliadach/issues');
+  };
+
+  const onResetSettings = () => resetApplicationSettings();
+
   return (
     <BaseNavigationMenu icon={IconSettings} title='Settings' onClose={onClose}>
       <AccordionMenu defaultValue={['general', 'actions']}>
@@ -40,6 +44,14 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
               description='The application will only show signatures when your attention could be needed.'
               ml='md'
               disabled={!settings.showSignaturesAfterDocumentLoad}
+            />
+            <BooleanSwitch
+              property='openFullscreenAfterDocumentLoad'
+              label='Open in fullscreen after the documents loads'
+            />
+            <BooleanSwitch
+              property='autoOpenSignedDocument'
+              label='Automatically open a signed document on load'
             />
             <BooleanSwitch 
               property='improvePrintDialogLatency'
@@ -65,12 +77,20 @@ export function SettingsMenu({ onClose }: { onClose: () => void }) {
         <AccordionMenu.Item value='actions' title='Actions' icon={IconBolt}>
           <Stack spacing='xs'>
             <Group spacing='xs' grow>
-              <Button leftIcon={<IconTrash size='1rem' />} size='xs'>Clean temporary directory</Button>
-              <Button leftIcon={<IconSettingsCog size='1rem' />} size='xs'>Reset settings to default</Button>
-            </Group>
-            <Group spacing='xs' grow>
-              <Button leftIcon={<IconBug size='1rem' />} size='xs'>Report a problem</Button>
-              <Button leftIcon={<IconPigMoney size='1rem' />} variant='outline' size='xs'>Contribute</Button>
+              <Button 
+                size='xs' 
+                leftIcon={<IconBug size='1rem' />} 
+                onClick={onReportProblem}
+              >
+                Report a problem
+              </Button>
+              <Button 
+                size='xs' 
+                leftIcon={<IconSettingsCog size='1rem' />} 
+                onClick={onResetSettings}
+              >
+                Reset settings to default
+              </Button>
             </Group>
           </Stack>
         </AccordionMenu.Item>
