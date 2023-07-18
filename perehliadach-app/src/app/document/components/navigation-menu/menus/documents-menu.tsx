@@ -5,6 +5,7 @@ import { setActiveDocument, useActiveDocumentIndexValue, useDocumentContext, use
 import { IconFiles, IconFolder, IconShieldCheck } from '@tabler/icons-react';
 import { RawReportArtifact, SourceFile } from '@/scripts/signature-validation/eu-dss/output-reader';
 import { AccordionMenu } from '../accordion-menu';
+import { saveDocument } from '@/scripts/utils';
 
 interface FileRowProperties {
   index: number;
@@ -20,6 +21,10 @@ function FileRow(props: FileRowProperties) {
     setActiveDocument(props.index);
   };
 
+  const onSave = () => {
+    saveDocument(props.file);
+  };
+
   return (
     <Group spacing='xs'>
       <Box sx={{ maxWidth: '300px' }}>  
@@ -33,7 +38,7 @@ function FileRow(props: FileRowProperties) {
       </Box>
       {isActive && <Badge size='xs' color='dark' variant='outline' sx={{ userSelect: 'none' }}>Active</Badge>}
       <Group ml='auto' spacing='xs'>
-        <Button size='xs' compact variant='subtle'>Save</Button>
+        <Button size='xs' compact variant='subtle' onClick={onSave}>Save</Button>
         {!isArtifact && <Button size='xs' compact onClick={onView} disabled={isActive}>View</Button>}
       </Group>
     </Group>
