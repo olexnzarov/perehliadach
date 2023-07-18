@@ -20,7 +20,10 @@ If you want to build the application yourself, see the [Building](#building) sec
 
 ## Validation Matrix
 
-Work in progress.
+| | CAdES-BES | CAdES-C | CAdES-T | CAdES-X Long |
+|:---:|:---:|:---:|:---:|:---:|
+|ASiC-E| ✅ | ✅ | ✅ | ✅ |
+|ASiC-S| ✅ | ✅ | ✅ | ✅ |
 
 ## Building
 
