@@ -4,9 +4,9 @@
 
 You can open and verify ASiC files with CAdES signatures. See the [Validation Matrix](#validation-matrix) section for more information on the supported and tested formats.
 
-## Releases
+## Download
 
-Check out the latest pre-built versions on the [Releases](https://github.com/alexnzarov/perehliadach/releases) page. They are built from the source code in this repository using GitHub Actions. 
+Check out the latest pre-built version on the [Releases](https://github.com/alexnzarov/perehliadach/releases) page. It is built from the source code in this repository using GitHub Actions. 
 
 If you want to build the application yourself, see the [Building](#building) section for instructions on how to do it.
 
@@ -26,3 +26,7 @@ If you want to build the application yourself, see the [Building](#building) sec
 ## Building
 
 Work in progress.
+
+## Sponsors
+
+This project is made and maintained by a Ukrainian developer. If you want to support them or this project, a donation to [Come Back Alive](https://savelife.in.ua/en/) foundation would be appreciated.

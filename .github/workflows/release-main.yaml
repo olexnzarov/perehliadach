@@ -1,0 +1,139 @@
+name: Build and create a pre-release
+
+on: 
+  push: 
+    branches: ['main']
+    paths: ['.version']
+
+
+jobs:
+  create-pre-release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            .version
+            .github/RELEASE_TEMPLATE.md
+          sparse-checkout-cone-mode: false
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(cat .version)
+          echo "value=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Create a release draft
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          name: ${{ steps.version.outputs.value }}
+          tag_name: ${{ steps.version.outputs.value }}
+          body_path: .github/RELEASE_TEMPLATE.md
+          prerelease: true
+          generate_release_notes: false
+          append_body: false
+
+  build-windows-x86_64:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Get version
+        id: version
+        run: |
+          $VERSION=$(cat .version)
+          echo "value=$VERSION" >> $env:GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Build command-line tool
+        working-directory: perehliadach-cli
+        run: |
+          mvn --batch-mode --update-snapshots -DskipTests=true package 
+          mv "target/*.jar" "../perehliadach-app/src-tauri/resources/perehliadach-cli.jar"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+          cache: yarn
+          cache-dependency-path: perehliadach-app/yarn.lock
+
+      - name: Cache Next.js
+        uses: actions/cache@v3
+        with:
+          path: |
+            perehliadach-app/.next/cache
+          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-nextjs-
+
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1.12.1
+
+      - name: Set up Rust toolchain
+        uses: actions-rs/toolchain@v1.0.6
+        with:
+          toolchain: stable-msvc
+          default: true
+
+      - name: Cache Cargo
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            perehliadach-app/src-tauri/target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Build desktop application
+        id: app-build
+        working-directory: perehliadach-app
+        env: 
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        run: |
+          yarn install --frozen-lockfile --network-timeout 300000
+          yarn tauri build
+
+          $FILE_NAME="perehliadach-${{ steps.version.outputs.value }}-x86_64-setup"
+
+          $SETUP_FILE_NAME="$FILE_NAME.exe"
+          $UPDATER_BUNDLE_FILE_NAME="$FILE_NAME.zip"
+          $SIGNATURE_FILE_NAME="$FILE_NAME.signature.txt"
+
+          mkdir ../assets
+
+          mv "src-tauri/target/release/bundle/nsis/*-setup.exe" "../assets/$SETUP_FILE_NAME"
+          mv "src-tauri/target/release/bundle/nsis/*-setup.nsis.zip" "../assets/$UPDATER_BUNDLE_FILE_NAME"
+          mv "src-tauri/target/release/bundle/nsis/*-setup.nsis.zip.sig" "../assets/$SIGNATURE_FILE_NAME"
+
+      - name: Upload assets
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          tag_name: ${{ steps.version.outputs.value }}
+          files: assets/*

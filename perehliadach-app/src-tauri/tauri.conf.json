@@ -7,20 +7,27 @@
     "distDir": "../out"
   },
   "package": {
-    "productName": "perehliadach-app",
-    "version": "0.1.0"
+    "productName": "Perehliadach",
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
       "all": false,
       "fs": {
         "all": true,
-        "scope": ["*", "**/*"]
+        "scope": [
+          "*",
+          "**/*"
+        ]
       },
       "shell": {
         "all": true,
         "scope": [
-          { "name": "java", "cmd": "java", "args": true }
+          {
+            "name": "java",
+            "cmd": "java",
+            "args": true
+          }
         ]
       },
       "os": {
@@ -76,7 +83,12 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+      "dialog": true,
+      "endpoints": [
+        "https://raw.githubusercontent.com/alexnzarov/perehliadach/main/.versions/latest-version.json"
+      ],
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENFMTNGRDhBRUMxRUZGRTkKUldUcC94N3NpdjBUenZOVEQrMjlNVk9sUkFDTE1EZFdBRXdzdXl4anNOcHNzejhnQmlOYlJ1T1AK"
     },
     "windows": [
       {

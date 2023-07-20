@@ -1,0 +1,7 @@
+{
+  "license": "UNLICENSED",
+  "scripts": {
+    "set-latest-version": "node ./.scripts/set-latest-version.js",
+    "set-current-version": "node ./.scripts/set-current-version.js"
+  }
+}
