@@ -25,7 +25,7 @@ If you want to build the application yourself, see the [Building](#building) sec
 
 ## Building
 
-Work in progress.
+While there is no detailed instruction on building from the source, you can check the [workflow](.github/workflows/release-main.yaml) to see how releases are built and published.
 
 ## Sponsors
 
