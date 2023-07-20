@@ -1,0 +1,10 @@
+{
+  "version": "v1.0.0",
+  "pub_date": "2023-07-20T11:18:28.443Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUcC94N3NpdjBUem43OGpKMWJIdUl4ckVaUEZsZmcvOGh4RnFCWUxkd3RUWGJ1VmpqZjR3dkV6cElpY0R6Y243cVo1MXN6MnQ5M0pxNkVFNGEwUmZtano3WlV3b0w5ZlFVPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjg5ODUxNTY5CWZpbGU6UGVyZWhsaWFkYWNoXzEuMC4wX3g2NC1zZXR1cC5uc2lzLnppcApkalpOcFNIclhVY0tLK1p3N0oweGZTbU55aTk0L2FRS1hxVlJqcExwOGNSWTk2MDJKcUJmRGthN2M2YkR5bnJyaUpoTzI1V3lGcDBVWE1wSVVWeUlDQT09Cg==",
+      "url": "https://github.com/alexnzarov/perehliadach/releases/download/v1.0.0/perehliadach-v1.0.0-x86_64-setup.zip"
+    }
+  }
+}
